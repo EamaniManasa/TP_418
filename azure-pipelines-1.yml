@@ -1,0 +1,17 @@
+trigger:
+- master
+
+# Use your self-hosted agent by specifying its name in the pool
+pool:
+  name: Default         # or your custom pool name
+  demands:
+    - Agent.Name -equals MANASA
+
+steps:
+- script: echo Hello from MANASA agent!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Running on self-hosted agent: MANASA
+    echo Add steps to build, test, or deploy here.
+  displayName: 'Run a multi-line script'
