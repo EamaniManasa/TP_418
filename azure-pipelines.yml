@@ -20,12 +20,11 @@ steps:
     echo "Execute test scripts here"
   displayName: 'Run Unit Tests'
 
-- script: |
-    echo "Starting Performance Test..."
-    k6 run legacy-app/loadTest.js   # Ensure correct relative path
-  displayName: 'Run k6 Performance Test'
+ - script: |
+      sudo apt update
+      sudo apt install -y k6
+    displayName: 'Install K6'  # Installing K6 on the machine
 
-- script: |
-    echo "Deploying the application..."
-    echo "Add deployment commands here"
-  displayName: 'Deployment Step'
+  - script: |
+      k6 run loadTest.js
+    displayName: 'Run Performance Test'  # Running the K6 test script
