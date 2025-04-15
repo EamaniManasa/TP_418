@@ -20,24 +20,7 @@ steps:
     echo "Execute test scripts here"
   displayName: 'Run Unit Tests'
 
+
 - script: |
-    k6 run --out json=results.json loadTest.js
+    k6 run loadTest.js
   displayName: 'Run Performance Test'  # Running the K6 test script
-
-# ✅ Install Node.js and k6-reporter
-- script: |
-    npm install -g k6-reporter
-  displayName: 'Install k6-reporter and dependencies'
-
-# ✅ Generate HTML from k6 JSON result
-- script: |
-    k6-reporter --input results.json --output results.html
-  displayName: 'Generate HTML Report'
-
-# ✅ Publish the HTML file as build artifact
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: 'results.html'
-    artifactName: 'k6-html-report'
-    publishLocation: 'Container'
-  displayName: 'Publish HTML Report'
