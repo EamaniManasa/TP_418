@@ -1,22 +1,17 @@
 trigger:
-- main
+- master
 
+# Use your self-hosted agent by specifying its name in the pool
 pool:
-  vmImage: 'windows-latest'
+  name: Default         # or your custom pool name
+  demands:
+    - Agent.Name -equals MANASA
 
 steps:
-- task: Checkout@1
-  inputs:
-    repository: self
-    fetchDepth: 1
+- script: echo Hello from MANASA agent!
+  displayName: 'Run a one-line script'
 
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.sln'
-    msbuildArgs: '/p:Configuration=Release'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'drop'
-    publishLocation: 'Container'
+- script: |
+    echo Running on self-hosted agent: MANASA
+    echo Add steps to build, test, or deploy here.
+  displayName: 'Run a multi-line script'
