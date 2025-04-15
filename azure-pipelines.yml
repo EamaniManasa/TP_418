@@ -1,11 +1,10 @@
-trigger:
-- master
+# Azure DevOps Pipeline with Self-Hosted Agent and k6 Performance Testing
 
-# Use your self-hosted agent by specifying its name in the pool
+trigger:
+- main
+
 pool:
-  name: Default         # or your custom pool name
-  demands:
-    - Agent.Name -equals MANASA
+  name: Default  # Use your self-hosted agent pool name
 
 steps:
 - script: echo "Starting the CI/CD pipeline..."
