@@ -5,30 +5,35 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  debugContext: 'false'  # Default value for debugContext
+  # Default value for system.debugContext in case it's not available
+  system.debugContext: 'false'
 
 steps:
+# Checkout repository step
 - task: Checkout@1
   inputs:
     repository: self
     fetchDepth: 1
   displayName: 'Checkout Repository'
 
+# Debug context check step (handling system.debugContext safely)
 - script: |
-    echo "Debug Context: $(debugContext)"
-    if [ "$(debugContext)" == "true" ]; then
+    echo "Debug Context: $(system.debugContext)"
+    if [ "$(system.debugContext)" == "true" ]; then
         echo "Debugging enabled"
     else
         echo "Debugging not enabled"
     fi
   displayName: 'Debug Context Check'
 
-- script: |
-    echo "Running build script"
-  displayName: 'Run Build Script'
-
+# Custom Task Step with the provided ID
 - task: 6d15af64-176c-496d-b583-fd2ae21d4df4@1
   inputs:
     repository: self
     fetchDepth: 1
   displayName: 'Custom Task'
+
+# Example script step to demonstrate pipeline execution
+- script: |
+    echo "Running build script"
+  displayName: 'Run Build Script'
