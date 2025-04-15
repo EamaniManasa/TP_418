@@ -4,30 +4,31 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  debugContext: 'false'  # Default value for debugContext
+
 steps:
 - task: Checkout@1
   inputs:
     repository: self
     fetchDepth: 1
+  displayName: 'Checkout Repository'
 
 - script: |
-    echo "Checking if task exists"
-    if [[ "$(containsValue(steps, '6d15af64-176c-496d-b583-fd2ae21d4df4'))" == "True" ]]; then
-        echo "Task found!"
-    else
-        echo "Task not found!"
-    fi
-  displayName: 'Task Existence Check'
-
-- script: |
-    if [ "$(system.debugContext)" == "true" ]; then
+    echo "Debug Context: $(debugContext)"
+    if [ "$(debugContext)" == "true" ]; then
         echo "Debugging enabled"
     else
         echo "Debugging not enabled"
     fi
   displayName: 'Debug Context Check'
 
+- script: |
+    echo "Running build script"
+  displayName: 'Run Build Script'
+
 - task: 6d15af64-176c-496d-b583-fd2ae21d4df4@1
   inputs:
     repository: self
     fetchDepth: 1
+  displayName: 'Custom Task'
