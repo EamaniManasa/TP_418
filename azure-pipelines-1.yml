@@ -1,34 +1,33 @@
 trigger:
-  - master  # Use your self-hosted agent by specifying its name in the pool
+- main
 
 pool:
-  name: Default         # or your custom pool name
-  demands:
-    - Agent.Name -equals MANASA
+  vmImage: 'ubuntu-latest'
 
 steps:
-  - script: echo Hello from MANASA agent!
-    displayName: 'Run a one-line script'
+- task: Checkout@1
+  inputs:
+    repository: self
+    fetchDepth: 1
 
-  - script: |
-      echo Running on self-hosted agent: MANASA
-      echo Add steps to build, test, or deploy here.
-    displayName: 'Run a multi-line script'
+- script: |
+    echo "Checking if task exists"
+    if [[ "$(containsValue(steps, '6d15af64-176c-496d-b583-fd2ae21d4df4'))" == "True" ]]; then
+        echo "Task found!"
+    else
+        echo "Task not found!"
+    fi
+  displayName: 'Task Existence Check'
 
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-    displayName: 'Install Node.js'
+- script: |
+    if [ "$(system.debugContext)" == "true" ]; then
+        echo "Debugging enabled"
+    else
+        echo "Debugging not enabled"
+    fi
+  displayName: 'Debug Context Check'
 
-  - script: |
-      npm install
-    displayName: 'Install dependencies'
-
-  - script: |
-      docker build -t legacy-app:latest .
-    displayName: 'Build Docker Image'
-
-  - script: |
-      docker rm -f legacy-container || true
-      docker run -d -p 9090:3000 --name legacy-container legacy-app:latest
-    displayName: 'Run Docker Container'
+- task: 6d15af64-176c-496d-b583-fd2ae21d4df4@1
+  inputs:
+    repository: self
+    fetchDepth: 1
