@@ -24,7 +24,7 @@ steps:
 
 - script: |
     echo "Starting Performance Test..."
-    k6 run load-test.js   # Use relative path
+    k6 run loadTest.js   # Use relative path
   displayName: 'Run k6 Performance Test'
 
 - script: |
