@@ -1,10 +1,13 @@
 # Azure DevOps Pipeline with Self-Hosted Agent and k6 Performance Testing
 
 trigger:
-- main
+- master  # Trigger pipeline on commits to master branch
 
+# Use your self-hosted agent
 pool:
-  name: Default  # Use your self-hosted agent pool name
+  name: Default
+  demands:
+    - Agent.Name -equals MANASA
 
 steps:
 - script: echo "Starting the CI/CD pipeline..."
@@ -22,7 +25,7 @@ steps:
 
 - script: |
     echo "Starting Performance Test..."
-    k6 run loadTest.js
+    C:\ProgramData\chocolatey\bin\k6.exe run E:\TP\legacy-app\loadTest.js
   displayName: 'Run k6 Performance Test'
 
 - script: |
