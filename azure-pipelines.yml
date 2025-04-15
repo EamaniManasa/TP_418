@@ -28,3 +28,4 @@ steps:
   - script: |
       k6 run loadTest.js
     displayName: 'Run Performance Test'  # Running the K6 test script
+    
